@@ -15,14 +15,19 @@
  */
 package sample;
 
-import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-// tag::class[]
-public class Initializer
-        extends AbstractHttpSessionApplicationInitializer { // <1>
+@EnableRedisHttpSession
+public class HttpSessionConfig {
 
-    public Initializer() {
-        super(HttpSessionConfig.class); // <2>
+    @Bean
+    public JedisConnectionFactory connectionFactory() {
+        JedisConnectionFactory factory = new JedisConnectionFactory();
+//        factory.setHostName("192.168.116.128");
+        factory.setHostName("10.137.2.102");
+        return factory;
     }
 }
-// end::class[]

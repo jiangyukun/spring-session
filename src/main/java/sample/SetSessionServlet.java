@@ -15,18 +15,24 @@
  */
 package sample;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@EnableRedisHttpSession
-public class Config {
+// tag::class[]
+@WebServlet("/set")
+public class SetSessionServlet extends HttpServlet {
 
-    @Bean
-    public JedisConnectionFactory connectionFactory() {
-        JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setHostName("192.168.116.128");
-        return factory;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("set key");
+        req.getSession().setAttribute("key", "ggg");
+
     }
+
+    private static final long serialVersionUID = 2878267318695777395L;
 }
+// tag::end[]
